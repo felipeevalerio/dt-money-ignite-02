@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import * as Dialog from '@radix-ui/react-dialog'
+import * as RadioGroup from '@radix-ui/react-radio-group';
 
 export const Overlay = styled(Dialog.DialogOverlay)`
     position: fixed;
@@ -49,9 +50,10 @@ export const Content = styled(Dialog.Content)`
             border-radius: 6px;
             margin-top: 1.5rem;
             cursor: pointer;
+            transition: background-color 0.2s;
 
             &:hover {
-                color: ${props => props.theme["green-700"]};
+                background: ${props => props.theme["green-700"]};
             }
         }
     }
@@ -68,7 +70,7 @@ export const CloseButton = styled(Dialog.Close)`
     color: ${props => props.theme["gray-500"]};
 `;
 
-export const TransactionType = styled.div`
+export const TransactionType = styled(RadioGroup.Root)`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -81,7 +83,7 @@ interface TransactionTypeButtonProps {
     variant: 'income' | 'outcome';
 }
 
-export const TransactionTypeButton = styled.button<TransactionTypeButtonProps>`
+export const TransactionTypeButton = styled(RadioGroup.Item)<TransactionTypeButtonProps>`
     background: ${props => props.theme["gray-700"]};
     color: ${props => props.theme["gray-300"]};
     padding: 1rem;
@@ -92,6 +94,21 @@ export const TransactionTypeButton = styled.button<TransactionTypeButtonProps>`
     border-radius: 6px;
     cursor: pointer;
     border: 0;
+    width: 100%;
+    transition: background-color 0.2s;
+
+    &[data-state="unchecked"]:hover {
+        background: ${props => props.theme["gray-600"]};
+    }
+
+    &[data-state="checked"] {
+        color: ${props => props.theme.white};
+        background: ${props => props.variant === 'income' ? props.theme["green-300"] : props.theme["red-500"]};
+
+        svg {
+            color: ${props => props.theme.white};
+        }
+    }
 
     svg {
         color: ${props => props.variant === 'income' ? props.theme["green-300"] : props.theme["red-300"]};
